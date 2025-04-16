@@ -1,4 +1,4 @@
-package com.ameya.livefront.userdirectory.ui.user
+package com.ameya.livefront.userdirectory.ui.user.detail
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -36,7 +34,7 @@ import com.ameya.livefront.userdirectory.R
 import com.ameya.livefront.userdirectory.domain.model.User
 
 /**
- * Detail pane that displays user information in the [UserListDetailPaneScaffold].
+ * Detail pane that displays user information in the [UserScreen].
  *
  * @param modifier The modifier to be applied to this layout.
  * @param user The user to display.
@@ -92,10 +90,10 @@ fun UserDetailLayout(
 
         item {
             val phone = user.phone
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.phone),
                 value = phone,
-                modifier = Modifier.clickable {
+                valueModifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
                         data = "tel:$phone".toUri()
                     }
@@ -114,10 +112,10 @@ fun UserDetailLayout(
 
         item {
             val cell = user.cell
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.cell_phone),
                 value = cell,
-                modifier = Modifier.clickable {
+                valueModifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
                         data = "tel:$cell".toUri()
                     }
@@ -136,10 +134,10 @@ fun UserDetailLayout(
 
         item {
             val email = user.email
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.email),
                 value = email,
-                modifier = Modifier.clickable {
+                valueModifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
                         data = "mailto:$email".toUri()
                     }
@@ -159,21 +157,21 @@ fun UserDetailLayout(
         item {
             val location = user.location
             val street = location.street
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.address),
                 value = "${street.number} ${street.name}\n${location.city}\n${location.state} ${location.postcode}\n${location.country}"
             )
         }
 
         item {
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.timezone),
                 value = user.location.timezone
             )
         }
 
         item {
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.age),
                 value = user.age.toString()
             )
@@ -185,35 +183,10 @@ fun UserDetailLayout(
             } else {
                 context.resources.configuration.locale
             }
-            LabelAndValueColumn(
+            UserDetailItem(
                 label = stringResource(R.string.gender),
                 value = user.gender.replaceFirstChar { if (it.isLowerCase()) it.titlecase(currentLocale) else it.toString() }
             )
         }
-    }
-}
-
-@Composable
-fun LabelAndValueColumn(
-    modifier: Modifier = Modifier,
-    label: String,
-    value: String,
-    labelTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
-    valueTextStyle: TextStyle = MaterialTheme.typography.bodyLarge
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = label,
-            style = labelTextStyle,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            text = value,
-            style = valueTextStyle,
-            modifier = modifier
-        )
     }
 }

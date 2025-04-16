@@ -1,4 +1,4 @@
-package com.ameya.livefront.userdirectory.ui.user
+package com.ameya.livefront.userdirectory.ui.user.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +14,7 @@ import coil.compose.AsyncImage
 import com.ameya.livefront.userdirectory.domain.model.User
 
 /**
- * List item that displays user information in the List pane of the [UserListDetailPaneScaffold].
+ * List item that displays user information in the List pane of the [UserScreen].
  *
  * @param user The user to display.
  * @param modifier The modifier to be applied to this layout.
