@@ -22,6 +22,10 @@ class UserViewModel @Inject constructor(
         getUserList(requestRemote = false)
     }
 
+    /**
+     * Function to handle the events from the UI.
+     * @param event: UserEvent - The event to be handled.
+     */
     fun onEvent(event: UserEvent) {
         when (event) {
             UserEvent.OnRefresh -> {
@@ -34,8 +38,14 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Function to update the selected user id.
+     * @param selectedUserId: Long? - The id of the selected user.
+     */
     fun updateSelectedItem(selectedUserId: Long?) {
-        state = state.copy(selectedUserId = selectedUserId)
+        if (selectedUserId == null || state.userList.isNotEmpty()) {
+            state = state.copy(selectedUserId = selectedUserId)
+        }
     }
 
     private fun getUserList(query: String = "", requestRemote: Boolean) {
