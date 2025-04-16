@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.ameya.livefront.userdirectory.ui.UserListDetailPaneScaffold
 import com.ameya.livefront.userdirectory.ui.theme.UserDirectoryTheme
+import com.ameya.livefront.userdirectory.ui.user.UserListDetailPaneScaffold
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            UserDirectoryTheme {
+            UserDirectoryTheme(dynamicColor = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     UserListDetailPaneScaffold(
                         modifier = Modifier.padding(innerPadding)

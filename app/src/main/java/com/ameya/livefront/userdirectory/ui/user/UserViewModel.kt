@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ameya.livefront.userdirectory.domain.repository.UserRepository
-import com.ameya.livefront.userdirectory.util.Resource
+import com.ameya.livefront.userdirectory.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,18 +14,18 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val repository: UserRepository
-): ViewModel()  {
+) : ViewModel() {
     var state by mutableStateOf(UserState())
         private set
 
     init {
-        getUserList("", true)
+        getUserList(requestRemote = false)
     }
 
     fun onEvent(event: UserEvent) {
-        when(event) {
+        when (event) {
             UserEvent.OnRefresh -> {
-                getUserList("", true)
+                getUserList(requestRemote = true)
             }
 
             is UserEvent.OnSearchQueryChange -> {
@@ -34,21 +34,24 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    private fun getUserList(query: String, requestRemote: Boolean) {
+    fun updateSelectedItem(selectedUserId: Long?) {
+        state = state.copy(selectedUserId = selectedUserId)
+    }
+
+    private fun getUserList(query: String = "", requestRemote: Boolean) {
         viewModelScope.launch {
             repository.getUserList(query = query, requestRemote = requestRemote).collect { result ->
-                when(result) {
-                    is Resource.Error -> {
-
+                state = when (result) {
+                    is Result.Error -> {
+                        state.copy(isLoading = false, isError = true)
                     }
 
-                    is Resource.Loading -> {
-                        state = state.copy(isLoading = true)
+                    is Result.Loading -> {
+                        state.copy(isLoading = true, isError = false)
                     }
-                    is Resource.Success -> {
-                        result.data?.let {
-                            state = state.copy(userList = it)
-                        }
+
+                    is Result.Success -> {
+                        state.copy(isLoading = false, userList = result.data, isError = false)
                     }
                 }
             }

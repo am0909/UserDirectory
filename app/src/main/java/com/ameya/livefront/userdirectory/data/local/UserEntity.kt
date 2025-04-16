@@ -17,7 +17,6 @@ data class UserEntity(
     @PrimaryKey val id: Long? = null,
     val location: Location,
     @Embedded val name: Name,
-    val nat: String,
     val phone: String,
     @Embedded val picture: Picture
 )

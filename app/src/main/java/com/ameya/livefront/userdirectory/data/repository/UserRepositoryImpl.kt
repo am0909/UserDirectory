@@ -1,12 +1,13 @@
 package com.ameya.livefront.userdirectory.data.repository
 
+import android.util.Log
 import com.ameya.livefront.userdirectory.data.local.UserDatabase
 import com.ameya.livefront.userdirectory.data.mapper.toUser
 import com.ameya.livefront.userdirectory.data.mapper.toUserEntity
 import com.ameya.livefront.userdirectory.data.remote.UserAPI
 import com.ameya.livefront.userdirectory.domain.model.User
 import com.ameya.livefront.userdirectory.domain.repository.UserRepository
-import com.ameya.livefront.userdirectory.util.Resource
+import com.ameya.livefront.userdirectory.util.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -17,47 +18,56 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val api: UserAPI,
     db: UserDatabase
-): UserRepository {
+) : UserRepository {
     private val dao = db.dao
 
     override suspend fun getUserList(
         requestRemote: Boolean,
         query: String
-    ): Flow<Resource<List<User>>> {
+    ): Flow<Result<List<User>>> {
         return flow {
-            emit(Resource.Loading(true))
+            emit(Result.Loading)
 
-            // return the list of users from the local db first
+            // Return the list of users from the local db first
             val localUserList = dao.searchUserList(query)
-            emit(Resource.Success(localUserList.map { it.toUser() }))
 
-            // check if we need to fetch data from remote api
             val isDbEmpty = localUserList.isEmpty() && query.isBlank()
-            val shouldFetchFromRemote = isDbEmpty || requestRemote
-            if (!shouldFetchFromRemote) {
-                emit(Resource.Loading(false))
+            // If db is empty emit loading state else return the list of users
+            if (isDbEmpty) {
+                emit(Result.Loading)
             } else {
+                emit(Result.Success(localUserList.map { it.toUser() }))
+            }
+
+            // Check if we need to fetch data from remote api
+            val shouldFetchFromRemote = isDbEmpty || requestRemote
+            if (shouldFetchFromRemote) {
                 try {
                     val remoteUserList = api.getUserList().results
                     if (remoteUserList.isNotEmpty()) {
-                        // update the local db with the remote data
+                        // Update the local db with the remote data
                         dao.deleteUserList()
                         dao.insertUserList(remoteUserList.map { it.toUserEntity() })
 
-                        // always return the list of users from the local db so as to maintain
+                        // Always return the list of users from the local db so as to maintain
                         // single source of truth
-                        emit(Resource.Success(dao.searchUserList("").map { it.toUser() }))
-
-                        emit(Resource.Loading(false))
+                        emit(Result.Success(dao.searchUserList("").map { it.toUser() }))
                     }
                 } catch (e: IOException) {
-                    emit(Resource.Error(message = "Error loading users: ${e.localizedMessage}"))
+                    Log.e(TAG, "${e.javaClass} ${e.localizedMessage}")
+                    emit(Result.Error(e))
                 } catch (e: HttpException) {
-                    emit(Resource.Error(message = "Error loading users: ${e.localizedMessage}"))
+                    Log.e(TAG, "${e.javaClass} ${e.localizedMessage}")
+                    emit(Result.Error(e))
                 } catch (e: SocketTimeoutException) {
-                    emit(Resource.Error(message = "Error loading users: ${e.localizedMessage}"))
+                    Log.e(TAG, "${e.javaClass} ${e.localizedMessage}")
+                    emit(Result.Error(e))
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "UserRepositoryImpl"
     }
 }
