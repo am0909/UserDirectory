@@ -13,6 +13,7 @@ interface UserDao {
     @Query("DELETE FROM UserEntity")
     suspend fun deleteUserList()
 
+    // Convert the query and the first and last names to lower case and then match them
     @Query(
         """
         SELECT * FROM userentity WHERE LOWER(first) LIKE '%' || LOWER(:query) || '%' OR LOWER(last) LIKE '%' || LOWER(:query) || '%'

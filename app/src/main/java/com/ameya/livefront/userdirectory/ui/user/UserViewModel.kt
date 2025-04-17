@@ -11,6 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the [UserScreen].
+ * @param repository: [UserRepository] - The repository to fetch user data.
+ */
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val repository: UserRepository
@@ -19,12 +23,14 @@ class UserViewModel @Inject constructor(
         private set
 
     init {
+        // Pass false here since data from remote api will only be needed on the first load and it
+        // is handled in the user repository implementation.
         getUserList(requestRemote = false)
     }
 
     /**
-     * Function to handle the events from the UI.
-     * @param event: UserEvent - The event to be handled.
+     * Function to handle the user events from the UI.
+     * @param event: [UserEvent] - The event to be handled.
      */
     fun onEvent(event: UserEvent) {
         when (event) {

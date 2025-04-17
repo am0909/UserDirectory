@@ -15,10 +15,10 @@ import com.ameya.livefront.userdirectory.ui.user.list.UserListLayout
 import kotlinx.coroutines.launch
 
 /**
- * Composable function that displays the user list and detail information in a two-pane layout.
+ * Composable function that displays the user list and detail information in a [NavigableListDetailPaneScaffold].
  *
- * @param modifier The modifier to be applied to this layout.
- * @param viewModel The [UserViewModel] to be used to fetch the list of users.
+ * @param modifier The modifier to be applied to the [NavigableListDetailPaneScaffold].
+ * @param viewModel The [UserViewModel] to be used.
  */
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -48,14 +48,14 @@ fun UserScreen(
     val isDetailPaneVisible =
         navigator.scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
 
-    // If detail pane is not visible, update the selected item to null so that nothing
-    // highlighted in list pane
+    // If detail pane is not visible, set the selected item to null so that nothing
+    // highlighted in list pane.
     if (!isDetailPaneVisible) {
         onUpdateSelectedItem(null)
     }
 
     // When a user is clicked in the list layout, pass it as the content key to the navigator so that
-    // it can be used to display its detail page
+    // it can be used to display its detail page.
     val onItemClick: (User) -> Unit = { user ->
         onUpdateSelectedItem(user.id)
 

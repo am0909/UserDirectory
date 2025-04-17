@@ -109,7 +109,7 @@ fun UserDetailLayout(
                     try {
                         context.startActivity(intent)
                     } catch (ex: ActivityNotFoundException) {
-                        Toast.makeText(context, "No app available to handle this action", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.no_app_to_handle_action, Toast.LENGTH_SHORT).show()
                     }
                 },
                 valueTextStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -131,7 +131,7 @@ fun UserDetailLayout(
                     try {
                         context.startActivity(intent)
                     } catch (ex: ActivityNotFoundException) {
-                        Toast.makeText(context, "No app present to handle this intent", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.no_app_to_handle_action, Toast.LENGTH_SHORT).show()
                     }
                 },
                 valueTextStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -153,7 +153,7 @@ fun UserDetailLayout(
                     try {
                         context.startActivity(intent)
                     } catch (ex: ActivityNotFoundException) {
-                        Toast.makeText(context, "No app present to handle this intent", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.no_app_to_handle_action, Toast.LENGTH_SHORT).show()
                     }
                 },
                 valueTextStyle = MaterialTheme.typography.bodyLarge.copy(

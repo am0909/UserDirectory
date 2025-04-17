@@ -31,10 +31,10 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
  * List pane that displays a list of users in the [UserScreen] [com.ameya.livefront.userdirectory.ui.user.UserScreen].
  *
  * @param modifier The modifier to be applied to this layout.
- * @param state The [UserState] to be displayed.
- * @param onRefreshEvent The callback to be invoked when the user pulls to refresh.
+ * @param state The [UserState] object.
+ * @param onRefreshEvent The callback to be invoked when the user swipes to refresh.
  * @param onSearchQueryChangeEvent The callback to be invoked when the search query changes.
- * @param onItemClick The callback to be invoked when an user item is clicked.
+ * @param onItemClick The callback to be invoked when a user is selected.
  * @param selectedUserId The ID of the selected user or null if detail pane is not visible.
  */
 @Composable

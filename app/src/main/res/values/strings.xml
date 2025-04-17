@@ -16,4 +16,6 @@
 
     <string name="error_loading_users">Error loading users</string>
 
+    <string name="no_app_to_handle_action">No app available to handle this action</string>
+
 </resources>

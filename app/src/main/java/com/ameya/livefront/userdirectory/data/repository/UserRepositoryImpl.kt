@@ -17,6 +17,12 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
+/**
+ * Concrete implementation of [UserRepository] interface.
+ *
+ * @param api: UserAPI - The API to fetch the user data.
+ * @param db: UserDatabase - The database to store the user data.
+ */
 class UserRepositoryImpl @Inject constructor(
     private val api: UserAPI,
     db: UserDatabase
@@ -34,7 +40,8 @@ class UserRepositoryImpl @Inject constructor(
             val localUserList = dao.searchUserList(query)
 
             val isDbEmpty = localUserList.isEmpty() && query.isBlank()
-            // If db is empty emit loading state else return the list of users
+            // If db is empty emit loading state and proceed to fetching data from the remote api
+            // else return the list of users
             if (isDbEmpty) {
                 emit(Result.Loading)
             } else {

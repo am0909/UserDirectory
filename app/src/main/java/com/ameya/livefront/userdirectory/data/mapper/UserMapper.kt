@@ -7,7 +7,7 @@ import com.ameya.livefront.userdirectory.domain.model.Street
 import com.ameya.livefront.userdirectory.domain.model.User
 
 /**
- * Extension function to convert UserDto to UserEntity. This is used to map the data from the remote
+ * Extension function to convert [UserDto] to [UserEntity]. This is used to map the data from the remote
  * api and store it in the local db.
  */
 fun UserDto.toUserEntity(): UserEntity {
@@ -24,7 +24,7 @@ fun UserDto.toUserEntity(): UserEntity {
 }
 
 /**
- * Extension function to convert UserEntity to User. This is used to map the data from the local db
+ * Extension function to convert [UserEntity] to [User]. This is used to map the data from the local db
  * to the domain model which is then used by the UI layer.
  */
 fun UserEntity.toUser(): User {

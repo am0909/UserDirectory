@@ -1,7 +1,7 @@
 package com.ameya.livefront.userdirectory.ui.user
 
 /**
- * Interface to handle user events.
+ * Interface to handle various user events.
  */
 sealed interface UserEvent {
     /**

@@ -18,7 +18,7 @@ import com.ameya.livefront.userdirectory.domain.model.User
  *
  * @param user The user to display.
  * @param modifier The modifier to be applied to this layout.
- * @param onClick The callback to be invoked when the item is clicked.
+ * @param onClick The callback invoked when the item is clicked.
  * @param isSelected Whether the item is selected or not.
  */
 @Composable

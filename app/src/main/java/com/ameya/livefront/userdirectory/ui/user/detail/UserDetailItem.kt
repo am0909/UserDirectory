@@ -32,7 +32,9 @@ fun UserDetailItem(
     if (value.isNotBlank()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = modifier.then(Modifier.fillMaxWidth().semantics(mergeDescendants = true) {})
+            modifier = modifier.then(Modifier
+                .fillMaxWidth()
+                .semantics(mergeDescendants = true) {})
         ) {
             Text(
                 text = label,
