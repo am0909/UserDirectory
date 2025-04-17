@@ -5,6 +5,7 @@
     <string name="search_leading_icon_content_desc">Search</string>
     <string name="search_trailing_icon_content_desc">Clear search</string>
 
+    <string name="image_content_description">Photo of %1$s</string>
     <string name="phone">Phone</string>
     <string name="cell_phone">Cell</string>
     <string name="email">Email</string>

@@ -14,7 +14,7 @@ import coil.compose.AsyncImage
 import com.ameya.livefront.userdirectory.domain.model.User
 
 /**
- * List item that displays user information in the List pane of the [UserScreen].
+ * List item that displays user information in the List pane of the [UserScreen] [com.ameya.livefront.userdirectory.ui.user.UserScreen].
  *
  * @param user The user to display.
  * @param modifier The modifier to be applied to this layout.
@@ -40,12 +40,15 @@ fun UserListItem(
             )
         },
         leadingContent = {
-            AsyncImage(
-                model = user.large,
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-            )
+            val imageUrl = user.large
+            if (imageUrl.isNotBlank()) {
+                AsyncImage(
+                    model = user.large,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                )
+            }
         },
         colors = ListItemDefaults.colors(
             containerColor = if (isSelected) {

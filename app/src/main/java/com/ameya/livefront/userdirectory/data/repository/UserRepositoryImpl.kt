@@ -8,8 +8,10 @@ import com.ameya.livefront.userdirectory.data.remote.UserAPI
 import com.ameya.livefront.userdirectory.domain.model.User
 import com.ameya.livefront.userdirectory.domain.repository.UserRepository
 import com.ameya.livefront.userdirectory.util.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -64,7 +66,7 @@ class UserRepositoryImpl @Inject constructor(
                     emit(Result.Error(e))
                 }
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     companion object {

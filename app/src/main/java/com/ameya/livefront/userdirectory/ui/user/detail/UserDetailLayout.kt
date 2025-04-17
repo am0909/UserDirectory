@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -32,9 +33,10 @@ import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import com.ameya.livefront.userdirectory.R
 import com.ameya.livefront.userdirectory.domain.model.User
+import com.ameya.livefront.userdirectory.util.Constants.USER_DETAIL_TEST_TAG
 
 /**
- * Detail pane that displays user information in the [UserScreen].
+ * Detail pane that displays user information in the [UserScreen] [com.ameya.livefront.userdirectory.ui.user.UserScreen].
  *
  * @param modifier The modifier to be applied to this layout.
  * @param user The user to display.
@@ -53,23 +55,30 @@ fun UserDetailLayout(
             Modifier
                 .fillMaxSize()
                 .padding(12.dp)
+                .testTag(USER_DETAIL_TEST_TAG)
         ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = user.large,
-                    contentDescription = null,
+        val imageUrl = user.large
+        if (imageUrl.isNotBlank()) {
+            item {
+                Box(
                     modifier = Modifier
-                        .size(256.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
-                )
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = stringResource(
+                            R.string.image_content_description,
+                            "${user.first} ${user.last}"
+                        ),
+                        modifier = Modifier
+                            .size(256.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
         }
 
@@ -93,7 +102,7 @@ fun UserDetailLayout(
             UserDetailItem(
                 label = stringResource(R.string.phone),
                 value = phone,
-                valueModifier = Modifier.clickable {
+                modifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
                         data = "tel:$phone".toUri()
                     }
@@ -115,7 +124,7 @@ fun UserDetailLayout(
             UserDetailItem(
                 label = stringResource(R.string.cell_phone),
                 value = cell,
-                valueModifier = Modifier.clickable {
+                modifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_DIAL).apply {
                         data = "tel:$cell".toUri()
                     }
@@ -137,7 +146,7 @@ fun UserDetailLayout(
             UserDetailItem(
                 label = stringResource(R.string.email),
                 value = email,
-                valueModifier = Modifier.clickable {
+                modifier = Modifier.clickable {
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
                         data = "mailto:$email".toUri()
                     }

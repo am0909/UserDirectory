@@ -13,17 +13,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.ameya.livefront.userdirectory.R
 import com.ameya.livefront.userdirectory.domain.model.User
 import com.ameya.livefront.userdirectory.ui.SearchField
 import com.ameya.livefront.userdirectory.ui.user.UserState
+import com.ameya.livefront.userdirectory.util.Constants.USER_LIST_LAYOUT_ERROR_TEXT_TEST_TAG
+import com.ameya.livefront.userdirectory.util.Constants.USER_LIST_LAYOUT_LOADING_INDICATOR_TEST_TAG
+import com.ameya.livefront.userdirectory.util.Constants.USER_LIST_TEST_TAG
+import com.ameya.livefront.userdirectory.util.Constants.USER_SEARCH_FIELD_TEST_TAG
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 /**
- * List pane that displays a list of users in the [UserScreen].
+ * List pane that displays a list of users in the [UserScreen] [com.ameya.livefront.userdirectory.ui.user.UserScreen].
  *
  * @param modifier The modifier to be applied to this layout.
  * @param state The [UserState] to be displayed.
@@ -52,14 +57,19 @@ fun UserListLayout(
         )
     ) {
         // TODO: Clear the focus from the search field if user taps outside of it.
-        SearchField(onSearchQueryChangeEvent = onSearchQueryChangeEvent)
+        SearchField(
+            modifier = Modifier.testTag(USER_SEARCH_FIELD_TEST_TAG),
+            onSearchQueryChangeEvent = onSearchQueryChangeEvent
+        )
 
         if (state.isLoading) {
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier.testTag(USER_LIST_LAYOUT_LOADING_INDICATOR_TEST_TAG)
+                )
             }
         } else if (state.isError) {
             Box(
@@ -67,6 +77,7 @@ fun UserListLayout(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
+                    modifier = Modifier.testTag(USER_LIST_LAYOUT_ERROR_TEXT_TEST_TAG),
                     text = stringResource(R.string.error_loading_users),
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center
@@ -82,6 +93,7 @@ fun UserListLayout(
                 modifier =
                     Modifier
                         .fillMaxSize()
+                        .testTag(USER_LIST_TEST_TAG)
             ) {
                 itemsIndexed(state.userList) { index, user ->
                     UserListItem(

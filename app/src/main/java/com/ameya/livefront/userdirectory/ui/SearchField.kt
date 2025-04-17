@@ -32,6 +32,7 @@ import com.ameya.livefront.userdirectory.R
  */
 @Composable
 fun SearchField(
+    modifier: Modifier = Modifier,
     onSearchQueryChangeEvent: (String) -> Unit
 ) {
     var value by rememberSaveable { mutableStateOf("") }
@@ -44,9 +45,11 @@ fun SearchField(
     }
 
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+        modifier = modifier.then(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+        ),
         value = value,
         onValueChange = onValueChange,
         placeholder = {
@@ -55,7 +58,7 @@ fun SearchField(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = stringResource(R.string.search_leading_icon_content_desc)
+                contentDescription = null
             )
         },
         trailingIcon = {
