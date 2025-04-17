@@ -32,3 +32,8 @@ A Kotlin-based Android application for managing a user directory. The app uses m
 2. Open the project in Android Studio.
 3. Sync the project with Gradle files.
 4. Run the app on an emulator or physical device.
+
+## Future Scope
+
+- Add favorites functionality.
+- Implement pagination.
