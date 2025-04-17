@@ -71,24 +71,26 @@ fun UserListLayout(
                     modifier = Modifier.testTag(USER_LIST_LAYOUT_LOADING_INDICATOR_TEST_TAG)
                 )
             }
-        } else if (state.isError) {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    modifier = Modifier.testTag(USER_LIST_LAYOUT_ERROR_TEXT_TEST_TAG),
-                    text = stringResource(R.string.error_loading_users),
-                    color = MaterialTheme.colorScheme.error,
-                    textAlign = TextAlign.Center
-                )
-            }
         }
 
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = onRefreshEvent
         ) {
+            if (state.isError) {
+                Box(
+                    modifier = modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        modifier = Modifier.testTag(USER_LIST_LAYOUT_ERROR_TEXT_TEST_TAG),
+                        text = stringResource(R.string.error_loading_users),
+                        color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
             LazyColumn(
                 modifier =
                     Modifier

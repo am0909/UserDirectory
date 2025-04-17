@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -73,6 +74,8 @@ fun UserDetailLayout(
                             R.string.image_content_description,
                             "${user.first} ${user.last}"
                         ),
+                        error = painterResource(R.drawable.user_placeholder),
+                        placeholder = painterResource(R.drawable.user_placeholder),
                         modifier = Modifier
                             .size(256.dp)
                             .clip(RoundedCornerShape(8.dp)),

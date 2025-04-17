@@ -9,8 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.ameya.livefront.userdirectory.R
 import com.ameya.livefront.userdirectory.domain.model.User
 
 /**
@@ -40,15 +42,15 @@ fun UserListItem(
             )
         },
         leadingContent = {
-            val imageUrl = user.large
-            if (imageUrl.isNotBlank()) {
-                AsyncImage(
-                    model = user.large,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
-                )
-            }
+            AsyncImage(
+                model = user.large,
+                contentDescription = null,
+                error = painterResource(R.drawable.user_placeholder),
+                placeholder = painterResource(R.drawable.user_placeholder),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(4.dp))
+            )
+
         },
         colors = ListItemDefaults.colors(
             containerColor = if (isSelected) {
