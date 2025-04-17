@@ -42,6 +42,7 @@ fun UserListItem(
             )
         },
         leadingContent = {
+            // TODO: Move to separate ImageLoader class
             AsyncImage(
                 model = user.large,
                 contentDescription = null,

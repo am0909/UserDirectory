@@ -68,6 +68,7 @@ fun UserDetailLayout(
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
+                    // TODO: Move to separate ImageLoader class
                     AsyncImage(
                         model = imageUrl,
                         contentDescription = stringResource(
